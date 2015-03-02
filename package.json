@@ -1,6 +1,6 @@
 {
   "name": "spm-agent",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Node.js agent for SPM by Sematext",
   "main": "lib/index.js",
   "directories": {
@@ -11,7 +11,7 @@
   },
   "scripts": {
     "test": "mocha test/test.js",
-    "doc": "doxx --source . -i node_modules,logs,metricdb -t \"SPM Agent\" ./docs"
+    "doc": "doxx --source . -i node_modules,spmlogs,spmdb -t \"SPM Agent\" ./docs"
   },
   "repository": {
     "type": "git",
@@ -43,7 +43,7 @@
   "bugs": {
     "url": "https://github.com/sematext/spm-agent/issues"
   },
-  "homepage": "https://www.sematext.com",
+  "homepage": "http://www.sematext.com",
   "dependencies": {
     "flat": "^1.5.0",
     "ip": "^0.3.2",
