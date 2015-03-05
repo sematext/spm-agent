@@ -46,13 +46,12 @@ describe("SPM for NodeJS tests", function () {
 
   it("SPM Agent Stats", function (done) {
     try {
-      this.timeout(95000)
-      config.collectionInterval = 200
+      this.timeout(30000)
       config.collectionInterval = 1000
-      config.retransmitInterval = 1000
+      config.retransmitInterval = 400
       config.recoverInterval = 1000
-      config.maxDataPoints = 2
-      config.logger.console = false
+      config.maxDataPoints = 1
+      config.logger.console = true
       config.logger.level = 'debug'
       var SpmAgent = require('../lib/index.js')
       var client = new SpmAgent()
@@ -60,13 +59,14 @@ describe("SPM for NodeJS tests", function () {
         start: function (agent) {
           setTimeout(function () {
             agent.addMetrics({name: 'test', value: [1, 2, 3]})
-          }, 100)
+            agent.addMetrics({name: 'test', value: [1, 2, 3]})
+            //console.log ('add Metric')
+          }, 500)
         },
         stop: console.log
       }))
 
       client.once('stats', function (stats) {
-        console.log(stats)
         done()
       })
 
