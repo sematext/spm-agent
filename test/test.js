@@ -19,6 +19,37 @@ if (!config.tokens.spm)
 
 describe("SPM for NodeJS tests", function () {
 
+  it("SPM Agent Stats", function (done) {
+    try {
+      this.timeout(30000)
+      config.collectionInterval = 1200
+      config.retransmitInterval = 1000
+      config.recoverInterval = 1000
+      config.maxDataPoints = 1
+      config.logger.console = true
+      config.logger.level = 'debug'
+      var SpmAgent = require('../lib/index.js')
+      var client = new SpmAgent()
+      var testAgent = client.createAgent(new SpmAgent.Agent ({
+        start: function (agent) {
+          setTimeout(function () {
+            agent.addMetrics({name: 'test', value: [1, 2, 3]})
+            agent.addMetrics({name: 'test', value: [1, 2, 3]})
+            //console.log ('add Metric')
+          }, 900)
+        },
+        stop: console.log
+      }))
+
+      client.once('stats', function (stats) {
+        done()
+      })
+
+    } catch (err) {
+      console.log(err.stack)
+      done(err)
+    }
+  })
   it("Logger should log", function (done) {
     try {
       var logger = require('../lib/util/logger.js')
@@ -44,36 +75,6 @@ describe("SPM for NodeJS tests", function () {
     }
   })
 
-  it("SPM Agent Stats", function (done) {
-    try {
-      this.timeout(30000)
-      config.collectionInterval = 1000
-      config.retransmitInterval = 400
-      config.recoverInterval = 1000
-      config.maxDataPoints = 1
-      config.logger.console = true
-      config.logger.level = 'debug'
-      var SpmAgent = require('../lib/index.js')
-      var client = new SpmAgent()
-      var testAgent = client.createAgent(new SpmAgent.Agent ({
-        start: function (agent) {
-          setTimeout(function () {
-            agent.addMetrics({name: 'test', value: [1, 2, 3]})
-            agent.addMetrics({name: 'test', value: [1, 2, 3]})
-            //console.log ('add Metric')
-          }, 500)
-        },
-        stop: console.log
-      }))
-
-      client.once('stats', function (stats) {
-        done()
-      })
-
-    } catch (err) {
-      console.log(err.stack)
-      done(err)
-    }
-  })
+  
 })
 
