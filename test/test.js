@@ -64,12 +64,12 @@ describe("SPM for NodeJS tests", function () {
     try {
       var cfgValue = ['tokens.spm', 'recoverInterval', 'maxRetransmitBatchSize', 'spmSenderBulkInsertUrl', 'logger.dir', 'logger.filename', 'logger.level', 'maxDataPoints', 'collectionInterval']
       var checked = cfgValue.filter(function (key) {
-        return (config.get(key) != null || false)
+        return (config.get(key) == null)
       })
-      if (cfgValue.length == checked.length)
+      if (checked.length === 0)
         done()
       else
-        done('not all default values set ' + checked)
+        done('missing config values: ' + checked)
     } catch (err) {
       done(err)
     }
