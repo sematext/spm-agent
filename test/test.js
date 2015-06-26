@@ -33,8 +33,11 @@ describe("SPM for NodeJS tests", function () {
       var testAgent = client.createAgent(new SpmAgent.Agent ({
         start: function (agent) {
           setTimeout(function () {
+            agent.addMetrics({name: 'collectd5-disk-space-used\tdf-xvda1/df_complex-used', value: 3380457472.0, sct: 'OS'})
             agent.addMetrics({name: 'test', sct: 'OS', value: [1, 2, 3]})
             agent.addMetrics({name: 'test', value: [1, 2, 3]})
+
+            
             //console.log ('add Metric')
           }, 900)
         },
