@@ -1,4 +1,7 @@
 # SPM Agent Framework for Node.js
+- spm-agent is used in: [spm-agent-nodejs](https://github.com/sematext/spm-agent-nodejs) and [spm-agent-docker](https://github.com/sematext/spm-agent-docker) 
+- SPM: [http://sematext.com/spm](http://sematext.com/spm) (performance monitoring, alerting, etc.)
+- Node.js monitoring: [http://sematext.com/spm/integrations/nodejs-monitoring.html](http://sematext.com/spm/integrations/nodejs-monitoring.html)
 
 ## Functionality
 - Sender interface to SPM backend receivers
@@ -28,10 +31,6 @@ var testAgent = client.createAgent(new SpmAgent.Agent ({
 // monitor which values we added by "addMetrics"
 testAgent.on ('metrics', console.log)
 ```
-
-Currently spm-agent is part of 
--  [spm-agent-nodejs](https://github.com/sematext/spm-agent-nodejs) and 
--  [spm-agent-docker](https://github.com/sematext/spm-agent-docker) 
 
 Let us know about monitoring agents you need, maybe you like to contribute with your domain expertise!
 
