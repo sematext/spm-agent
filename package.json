@@ -1,6 +1,6 @@
 {
   "name": "spm-agent",
-  "version": "1.24.8",
+  "version": "1.27.9",
   "description": "Node.js agent framework for SPM by Sematext",
   "main": "lib/index.js",
   "directories": {
@@ -36,7 +36,7 @@
     "logging"
   ],
   "author": "Sematext Group, Inc.",
-  "license": "Copyright (c) Sematext Group, Inc.",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/sematext/spm-agent/issues"
   },
