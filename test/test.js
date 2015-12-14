@@ -34,11 +34,9 @@ describe("SPM for NodeJS tests", function () {
         start: function (agent) {
           setTimeout(function () {
             agent.addMetrics({name: 'collectd5-disk-space-used\tdf-xvda1/df_complex-used', value: 3380457472.0, sct: 'OS'})
+            agent.addMetrics({name: 'collectd-io-octets  disk-sda2/disk_octets', value: '0.000000,0.000000', sct:'OS'})
             agent.addMetrics({name: 'test', sct: 'OS', value: [1, 2, 3]})
             agent.addMetrics({name: 'test', value: [1, 2, 3]})
-
-            
-            //console.log ('add Metric')
           }, 900)
         },
         stop: console.log
