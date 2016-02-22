@@ -15,7 +15,7 @@ var eventReceived = false
 config.logger.console = false
 config.logger.level = 'debug'
 if (!config.tokens.spm)
-  config.tokens.spm = process.env.SPM_TOKEN
+  config.tokens.spm = process.env.SPM_TOKEN || TEST_TEST_TEST_SPM_AGENT_TRAVIS
 
 describe("SPM for NodeJS tests", function () {
 
