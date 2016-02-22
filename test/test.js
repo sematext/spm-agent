@@ -8,18 +8,16 @@
  * This source code is to be used exclusively by users and customers of Sematext.
  * Please see the full license (found in LICENSE in this distribution) for details on its license and the licenses of its dependencies.
  */
-var assert = require("assert")
-process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0'
 var config = require('../lib/util/spmconfig.js')
-var eventReceived = false
 config.logger.console = false
 config.logger.level = 'debug'
-if (!config.tokens.spm)
-  config.tokens.spm = process.env.SPM_TOKEN || TEST_TEST_TEST_SPM_AGENT_TRAVIS
+if (!config.tokens.spm) {
+  config.tokens.spm = process.env.SPM_TOKEN || 'TEST_TEST_TEST_SPM_AGENT_TRAVIS'
+}
 
-describe("SPM for NodeJS tests", function () {
-
-  it("SPM Agent Stats", function (done) {
+describe('SPM for NodeJS tests', function () {
+  it('SPM Agent Stats', function (done) {
     try {
       this.timeout(30000)
       config.collectionInterval = 1200
@@ -30,11 +28,11 @@ describe("SPM for NodeJS tests", function () {
       config.logger.level = 'debug'
       var SpmAgent = require('../lib/index.js')
       var client = new SpmAgent()
-      var testAgent = client.createAgent(new SpmAgent.Agent ({
+      var testAgent = client.createAgent(new SpmAgent.Agent({
         start: function (agent) {
           setTimeout(function () {
             agent.addMetrics({name: 'collectd5-disk-space-used\tdf-xvda1/df_complex-used', value: 3380457472.0, sct: 'OS'})
-            agent.addMetrics({name: 'collectd-io-octets  disk-sda2/disk_octets', value: '0.000000,0.000000', sct:'OS'})
+            agent.addMetrics({name: 'collectd-io-octets  disk-sda2/disk_octets', value: '0.000000,0.000000', sct: 'OS'})
             agent.addMetrics({name: 'test', sct: 'OS', value: [1, 2, 3]})
             agent.addMetrics({name: 'test', value: [1, 2, 3]})
           }, 900)
@@ -45,13 +43,12 @@ describe("SPM for NodeJS tests", function () {
       client.once('stats', function (stats) {
         done()
       })
-
     } catch (err) {
       console.log(err.stack)
       done(err)
     }
   })
-  it("Logger should log", function (done) {
+  it('Logger should log', function (done) {
     try {
       var logger = require('../lib/util/logger.js')
       logger.log('Logger test %d', 1)
@@ -60,22 +57,19 @@ describe("SPM for NodeJS tests", function () {
       done(err)
     }
   })
-
-  it("SPM Config has defaults", function (done) {
+  it('SPM Config has defaults', function (done) {
     try {
       var cfgValue = ['tokens.spm', 'recoverInterval', 'maxRetransmitBatchSize', 'spmSenderBulkInsertUrl', 'logger.dir', 'logger.filename', 'logger.level', 'maxDataPoints', 'collectionInterval']
       var checked = cfgValue.filter(function (key) {
-        return (config.get(key) == null)
+        return (config.get(key) === null)
       })
-      if (checked.length === 0)
+      if (checked.length === 0) {
         done()
-      else
+      } else {
         done('missing config values: ' + checked)
+      }
     } catch (err) {
       done(err)
     }
   })
-
-  
 })
-
