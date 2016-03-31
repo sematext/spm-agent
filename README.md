@@ -1,5 +1,5 @@
 # SPM Agent Framework for Node.js
-- spm-agent is used in: [spm-agent-nodejs](https://github.com/sematext/spm-agent-nodejs) and [spm-agent-docker](https://github.com/sematext/spm-agent-docker) 
+- spm-agent is used in: [spm-agent-nodejs](https://github.com/sematext/spm-agent-nodejs), [spm-agent-mongodb](https://github.com/sematext/spm-agent-mongodb) and [sematext-agent-docker](https://github.com/sematext/sematext-agent-docker) 
 - SPM: [http://sematext.com/spm](http://sematext.com/spm) (performance monitoring, alerting, etc.)
 - Node.js monitoring: [http://sematext.com/spm/integrations/nodejs-monitoring.html](http://sematext.com/spm/integrations/nodejs-monitoring.html)
 
