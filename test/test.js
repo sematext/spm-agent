@@ -15,6 +15,7 @@ config.logger.level = 'debug'
 if (!config.tokens.spm) {
   config.tokens.spm = process.env.SPM_TOKEN || 'TEST_TEST_TEST_SPM_AGENT_TRAVIS'
 }
+global.spmSenderUrlParameters = '&countainerCount=1'
 
 describe('SPM for NodeJS tests', function () {
   it('SPM Agent Stats', function (done) {
