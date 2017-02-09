@@ -1,20 +1,9 @@
 os:
   - linux
-sudo: false
-language: node_js
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - g++-4.8
 node_js:
   - "0.12"
   - "4"
   - "6"
   - "7"
 install:
-  - export CXX=g++-4.8
-  - export SPM_TOKEN=TRAVIS_TEST
-  - $CXX --version
   - npm i 
