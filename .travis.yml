@@ -15,5 +15,6 @@ node_js:
   - "7"
 install:
   - export CXX=g++-4.8
+  - export SPM_TOKEN=TRAVIS_TEST
   - $CXX --version
   - npm i 
