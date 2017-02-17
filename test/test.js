@@ -20,10 +20,10 @@ global.spmSenderUrlParameters = '&countainerCount=1'
 describe('SPM for NodeJS tests', function () {
   it('SPM Agent Stats', function (done) {
     try {
-      this.timeout(30000)
-      config.collectionInterval = 1200
+      this.timeout(50000)
+      config.collectionInterval = 1000
       config.retransmitInterval = 1000
-      config.recoverInterval = 1000
+      // config.recoverInterval = 1000
       config.maxDataPoints = 1
       config.logger.console = true
       config.logger.level = 'debug'
@@ -36,7 +36,7 @@ describe('SPM for NodeJS tests', function () {
             agent.addMetrics({name: 'collectd-io-octets  disk-sda2/disk_octets', value: '0.000000,0.000000', sct: 'OS'})
             agent.addMetrics({name: 'test', sct: 'OS', value: [1, 2, 3]})
             agent.addMetrics({name: 'test', value: [1, 2, 3]})
-          }, 900)
+          }, 500)
         },
         stop: console.log
       }))
