@@ -36,12 +36,12 @@ describe('SPM for NodeJS tests', function () {
             agent.addMetrics({name: 'collectd-io-octets  disk-sda2/disk_octets', value: '0.000000,0.000000', sct: 'OS'})
             agent.addMetrics({name: 'test', sct: 'OS', value: [1, 2, 3]})
             agent.addMetrics({name: 'test', value: [1, 2, 3]})
-          }, 500)
+          }, 1000)
         },
         stop: console.log
       }))
-
-      client.once('stats', function (stats) {
+      // testAgent.start()
+      client.once('metric', function (stats) {
         done()
       })
     } catch (err) {
