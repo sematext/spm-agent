@@ -73,4 +73,16 @@ describe('SPM for NodeJS tests', function () {
       done(err)
     }
   })
+  it('SPM Config "set" accepts flat key', function (done) {
+    try {
+      config.set('a.b.0.name', 'test')
+      if (config.a.b[0].name === 'test') {
+        done()
+      } else {
+        done(new Error('set flat key: a.b.0.name != test'))
+      }
+    } catch (err) {
+      done(err)
+    }
+  })
 })
