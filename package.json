@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha test/test.js"
+    "test": "mocha --exit test/test.js"
   },
   "repository": {
     "type": "git",
@@ -44,13 +44,13 @@
     "extend": "^3.0.0",
     "flat": "^2.0.1",
     "ip": "^1.1.4",
-    "moment": "^2.17.1",
+    "moment": "^2.23.0",
     "nedb": "^1.8.0",
-    "rc-yaml-2": "^1.0.0",
-    "request": "^2.79.0",
+    "rc-yaml-2": "^1.0.2",
+    "request": "^2.88.0",
     "winston": "^2.3.1"
   },
   "devDependencies": {
-    "mocha": "^3.2.0"
+    "mocha": "^5.2.0"
   }
 }
