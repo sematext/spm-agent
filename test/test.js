@@ -49,6 +49,49 @@ describe('SPM for NodeJS tests', function () {
       done(err)
     }
   })
+  it('Influx Agent Stats', function (done) {
+    try {
+      this.timeout(50000)
+      config.collectionInterval = 1000
+      config.retransmitInterval = 1000
+      // config.recoverInterval = 1000
+      config.maxDataPoints = 1
+      config.logger.console = true
+      config.logger.level = 'debug'
+      var SpmAgent = require('../lib/index.js')
+      var client = new SpmAgent()
+      var testAgent = client.createAgent(new SpmAgent.Agent({
+        start: function (agent) {
+          setTimeout(function () {
+            var tags = {
+              token: process.env.MONITORING_TOKEN || process.SPM_TOKEN,
+              PID: process.pid,
+              nodeVersion: process.version,
+              user: process.env.USER
+            }
+            var metric = {
+              measurement: 'myapp.process.memory',
+              tags: tags,
+              fields: { mycounter: new Date().getTime() }
+            }
+            agent.addMetrics(metric)
+          }, 1000)
+        },
+        stop: console.log
+      }))
+      // testAgent.start()
+      client.once('metric', function (stats) {
+        if (stats.measurement === 'myapp.process.memory') {
+          done()
+        } else {
+          throw new Error('metric has no measurement')
+        }
+      })
+    } catch (err) {
+      console.log(err.stack)
+      done(err)
+    }
+  })
   it('Logger should log', function (done) {
     try {
       var logger = require('../lib/util/logger.js')
