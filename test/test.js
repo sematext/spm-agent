@@ -16,6 +16,18 @@ if (!config.tokens.spm) {
   config.tokens.spm = process.env.SPM_TOKEN || 'TEST_TEST_TEST_SPM_AGENT_TRAVIS'
 }
 global.spmSenderUrlParameters = '&countainerCount=1'
+var http = require('http')
+http.createServer(function (req, res) {
+  res.writeHead(400, { 'Content-Type': 'text/plain' })
+  res.end('{"code":"400"}\n')
+}).listen(3314, '127.0.0.1')
+
+config.influx = {
+  dbName: 'metrics',
+  host: '127.0.0.1',
+  protocol: 'http',
+  port: 3314
+}
 
 describe('SPM for NodeJS tests', function () {
   it('SPM Agent Stats', function (done) {
@@ -49,9 +61,9 @@ describe('SPM for NodeJS tests', function () {
       done(err)
     }
   })
-  it('Influx Agent Stats', function (done) {
+  it('Influx Agent emits sender-stats, handling metrics rejection on status 400', function (done) {
     try {
-      this.timeout(50000)
+      this.timeout(60000)
       config.collectionInterval = 1000
       config.retransmitInterval = 1000
       // config.recoverInterval = 1000
@@ -80,11 +92,12 @@ describe('SPM for NodeJS tests', function () {
         stop: console.log
       }))
       // testAgent.start()
-      client.once('metric', function (stats) {
-        if (stats.measurement === 'myapp.process.memory') {
+      client.once('stats', function (stats) {
+        if (stats && stats.send >= 1) {
+          console.log(stats)
           done()
         } else {
-          throw new Error('metric has no measurement')
+          throw new Error('Agent does not emit stats object')
         }
       })
     } catch (err) {
