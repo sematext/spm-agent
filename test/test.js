@@ -30,7 +30,7 @@ config.influx = {
 }
 
 describe('SPM for NodeJS tests', function () {
-  it('SPM Agent Stats', function (done) {
+  it('SPM Metrics', function (done) {
     try {
       this.timeout(50000)
       config.collectionInterval = 1000
@@ -71,15 +71,16 @@ describe('SPM for NodeJS tests', function () {
       config.logger.console = true
       config.logger.level = 'debug'
       var SpmAgent = require('../lib/index.js')
+      process.env.MONITORING_TAGS_FROM_ENV = 'USER,PWD,cutomer_id=123'
       var client = new SpmAgent()
       var testAgent = client.createAgent(new SpmAgent.Agent({
         start: function (agent) {
           setTimeout(function () {
+
             var tags = {
               token: process.env.MONITORING_TOKEN || process.SPM_TOKEN,
               PID: process.pid,
-              nodeVersion: process.version,
-              user: process.env.USER
+              nodeVersion: process.version
             }
             var metric = {
               measurement: 'myapp.process.memory',
@@ -94,7 +95,7 @@ describe('SPM for NodeJS tests', function () {
       // testAgent.start()
       client.once('stats', function (stats) {
         if (stats && stats.send >= 1) {
-          console.log(stats)
+          console.log('stats', stats)
           done()
         } else {
           throw new Error('Agent does not emit stats object')
