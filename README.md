@@ -71,6 +71,46 @@ testAgent.on('metrics', console.log)
 testAgent.on('process.memory', console.log)
 ```
 
+## Metric Tags
+
+The agent is able to use environment variables as metrics tags. 
+Define a list of environment variables to be used as metric tags:  
+
+```
+# add the values of env. variables USER, PWD as tags to metrics
+export MONITORING_TAGS_FROM_ENV="USER, PWD"
+```
+
+Define static tags in `key=value` format 
+
+```
+export MONITORING_TAGS_FROM_ENV="organisation=sematext, service=api"
+
+```
+
+Both types of tags can be mixed: 
+
+```
+export MONITORING_TAGS_FROM_ENV="organisation=sematext, service=api, USER, PWD"
+
+```
+
+The config file entry `influx.tagsFromEnv` in `.spmagenrc` works as well: 
+
+```
+tokens: 
+  spm: 'YOUR_MONITORING_TOKEN'
+influx:
+  tagsFromEnv: 'organisation=sematext, USER, PWD' 
+  dbName: 'metrics'
+  host: spm-receiver.sematext.com
+  protocol: https
+  port: 443
+  
+```     
+
+# Contribute 
+
 Let us know about monitoring agents you need, maybe you like to contribute with your domain expertise!
 
 # Related Modules
@@ -81,6 +121,3 @@ Let us know about monitoring agents you need, maybe you like to contribute with 
 - [sematext-agent-nginx](https://github.com/sematext/sematext-agent-nginx), 
 - [sematext-agent-httpd](https://github.com/sematext/sematext-agent-httpd) 
 - [Sematext Cloud](https://sematext.com/cloud) - one platform for metrics and logs
-
-
-
