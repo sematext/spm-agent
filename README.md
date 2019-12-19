@@ -81,17 +81,17 @@ Define a list of environment variables to be used as metric tags:
 export MONITORING_TAGS_FROM_ENV="USER, PWD"
 ```
 
-Define static tags in `key=value` format 
+Define static tags in `key:value` format 
 
 ```
-export MONITORING_TAGS_FROM_ENV="organisation=sematext, service=api"
+export MONITORING_TAGS_FROM_ENV="organisation:sematext, service=api"
 
 ```
 
 Both types of tags can be mixed: 
 
 ```
-export MONITORING_TAGS_FROM_ENV="organisation=sematext, service=api, USER, PWD"
+export MONITORING_TAGS_FROM_ENV="organisation:sematext, service:api, USER, PWD"
 
 ```
 
@@ -101,7 +101,7 @@ The config file entry `influx.tagsFromEnv` in `.spmagenrc` works as well:
 tokens: 
   spm: 'YOUR_MONITORING_TOKEN'
 influx:
-  tagsFromEnv: 'organisation=sematext, USER, PWD' 
+  tagsFromEnv: 'organisation:sematext, USER, PWD' 
   dbName: 'metrics'
   host: spm-receiver.sematext.com
   protocol: https
