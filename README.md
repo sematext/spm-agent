@@ -71,6 +71,91 @@ testAgent.on('metrics', console.log)
 testAgent.on('process.memory', console.log)
 ```
 
+## Metric Tags
+
+The agent is able to use environment variables as metrics tags. 
+Define a list of environment variables to be used as metric tags.
+
+Let's assume this is the enviroment of the monitored application: 
+
+```
+> env
+TERM_PROGRAM=Apple_Terminal
+TERM=xterm-256color
+SHELL=/bin/bash
+TMPDIR=/var/folders/v6/bh2q1xsn27g4d2g54z2ylv100000gn/T/
+TERM_PROGRAM_VERSION=404.1
+TERM_SESSION_ID=F12E0DBD-BF40-466D-85EC-08E89EDC3440
+USER=stefan
+PWD=/Users/stefan
+HOME=/Users/stefan
+LOGNAME=stefan
+LC_CTYPE=UTF-8
+DISPLAY=/private/tmp/com.apple.launchd.J60ybGpban/org.macosforge.xquartz:0
+_=/usr/bin/env
+```
+
+You want to see later the performance metrics aggregated or filtered for specific user. 
+In this case the agent should collect the user name as tag. You can find the user name in the process environment variable `USER`. 
+Let's also assume the workingdirectory of the application `PWD` is another relevant identifier for your monitored application. 
+
+To configure the agent collecting USER and PWD as tags you can specify a commaseparated list of environment variables for the the agent configuration: 
+
+```
+# add the values of env. variables USER, PWD as tags to metrics
+export MONITORING_TAGS_FROM_ENV="USER, PWD"
+```
+
+The generated metrics include then the environment variable name and its value as tags. The result in Influx Line Protocol (ILP) format, produced by the agent for metric called `swap`: 
+
+```
+swap, USER=stefan,PWD=/Users/stefan out=0i,in=0i 1576765680000000000
+```
+
+Define static tags in `key:value` format 
+
+```
+export MONITORING_TAGS_FROM_ENV="organisation:sematext, service:api"
+
+```
+
+The result in in ILP format: 
+
+```
+swap, organisation=sematext,service=api out=0i,in=0i 1576765680000000000
+```
+
+
+Both types of tags can be mixed: 
+
+```
+export MONITORING_TAGS_FROM_ENV="organisation:sematext, service:api, USER, PWD"
+
+```
+
+The result in in ILP format: 
+
+```
+swap, organisation=sematext,service=api,USER=stefan,PWD=/Users/stefan,os.host=imac.local out=0i,in=0i 1576765680000000000
+```
+
+
+The config file entry `influx.tagsFromEnv` in `.spmagenrc` works as well: 
+
+```
+tokens: 
+  spm: 'YOUR_MONITORING_TOKEN'
+influx:
+  tagsFromEnv: 'organisation:sematext, USER, PWD' 
+  dbName: 'metrics'
+  host: spm-receiver.sematext.com
+  protocol: https
+  port: 443
+  
+```     
+
+# Contribute 
+
 Let us know about monitoring agents you need, maybe you like to contribute with your domain expertise!
 
 # Related Modules
@@ -81,6 +166,3 @@ Let us know about monitoring agents you need, maybe you like to contribute with 
 - [sematext-agent-nginx](https://github.com/sematext/sematext-agent-nginx), 
 - [sematext-agent-httpd](https://github.com/sematext/sematext-agent-httpd) 
 - [Sematext Cloud](https://sematext.com/cloud) - one platform for metrics and logs
-
-
-
