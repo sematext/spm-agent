@@ -71,7 +71,7 @@ describe('SPM for NodeJS tests', function () {
       config.logger.console = true
       config.logger.level = 'debug'
       var SpmAgent = require('../lib/index.js')
-      process.env.MONITORING_TAGS_FROM_ENV = 'USER,PWD,cutomer_id=123'
+      process.env.MONITORING_TAGS_FROM_ENV = 'USER,PWD,customer_id:123'
       var client = new SpmAgent()
       var testAgent = client.createAgent(new SpmAgent.Agent({
         start: function (agent) {
