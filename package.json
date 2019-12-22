@@ -1,6 +1,6 @@
 {
   "name": "spm-agent",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Node.js agent framework for SPM by Sematext",
   "main": "lib/index.js",
   "directories": {
