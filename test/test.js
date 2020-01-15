@@ -76,7 +76,6 @@ describe('SPM for NodeJS tests', function () {
       var testAgent = client.createAgent(new SpmAgent.Agent({
         start: function (agent) {
           setTimeout(function () {
-
             var tags = {
               token: process.env.MONITORING_TOKEN || process.SPM_TOKEN,
               PID: process.pid,
@@ -99,6 +98,50 @@ describe('SPM for NodeJS tests', function () {
           done()
         } else {
           throw new Error('Agent does not emit stats object')
+        }
+      })
+    } catch (err) {
+      console.log(err.stack)
+      done(err)
+    }
+  })
+  it('Influx Agent does not overwrite token', function (done) {
+    try {
+      this.timeout(60000)
+      config.collectionInterval = 1000
+      config.transmitInterval = 1000
+      config.retransmitInterval = 1000
+      // config.recoverInterval = 1000
+      config.maxDataPoints = 1
+      config.logger.console = true
+      config.logger.level = 'debug'
+      var SpmAgent = require('../lib/index.js')
+      process.env.MONITORING_TAGS_FROM_ENV = 'USER,PWD,customer_id:123'
+      var token = 'd8f1bbff-xxxx-xxxx-xxxx-cbda0a33bc44'
+      var client = new SpmAgent()
+      var testAgent = client.createAgent(new SpmAgent.Agent({
+        start: function (agent) {
+          setTimeout(function () {
+            var tags = {
+              token: token,
+              PID: process.pid,
+              nodeVersion: process.version
+            }
+            var metric = {
+              measurement: 'myapp.process.memory',
+              tags: tags,
+              fields: { mycounter: new Date().getTime() }
+            }
+            agent.addMetrics(metric)
+          }, 1)
+        },
+        stop: console.log
+      }))
+      client.once('metricInSendBuffer', function (m) {
+        if (m && m.tags && m.tags.token === token) {
+          done()
+        } else {
+          done(new Error(`token was modified ${m.tags.token} != ${token}`))
         }
       })
     } catch (err) {
