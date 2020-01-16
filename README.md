@@ -55,6 +55,14 @@ var testAgent = client.createAgent(new SpmAgent.Agent ({
         tags: {role: 'frontend', 'os.host': os.hostname()},
         fields: {rss: process.memoryUsage().rss}}
        )
+      // The monitoring token can be set as 'tags.token' value
+      // Routing a metrics to a different monitoring app
+      // requires setting the `token` tag
+      agent.addMetrics({
+         measurement: 'process.memory',
+         tags: {token: 'SOME_OTHER_APP_TOKEN_HERE'},
+        fields: {rss: process.memoryUsage().rss}
+      })
     }, client.config.collectionInterval)
   },
   stop: function () {
@@ -145,6 +153,7 @@ The config file entry `influx.tagsFromEnv` in `.spmagenrc` works as well:
 ```
 tokens: 
   spm: 'YOUR_MONITORING_TOKEN'
+  infra: 'YOUR_INFRA_MONITROING_TOKEN'
 influx:
   tagsFromEnv: 'organisation:sematext, USER, PWD' 
   dbName: 'metrics'
