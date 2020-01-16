@@ -153,6 +153,7 @@ The config file entry `influx.tagsFromEnv` in `.spmagenrc` works as well:
 ```
 tokens: 
   spm: 'YOUR_MONITORING_TOKEN'
+  infra: 'YOUR_INFRA_MONITROING_TOKEN'
 influx:
   tagsFromEnv: 'organisation:sematext, USER, PWD' 
   dbName: 'metrics'
