@@ -55,6 +55,14 @@ var testAgent = client.createAgent(new SpmAgent.Agent ({
         tags: {role: 'frontend', 'os.host': os.hostname()},
         fields: {rss: process.memoryUsage().rss}}
        )
+      // The monitoring token can be set as 'tags.token' value
+      // Routing a metrics to a different monitoring app
+      // requires setting the `token` tag
+      agent.addMetrics({
+         measurement: 'process.memory',
+         tags: {token: 'SOME_OTHER_APP_TOKEN_HERE'},
+        fields: {rss: process.memoryUsage().rss}
+      })
     }, client.config.collectionInterval)
   },
   stop: function () {
