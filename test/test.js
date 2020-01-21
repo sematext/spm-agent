@@ -22,6 +22,11 @@ http.createServer(function (req, res) {
   res.end('{"code":"400"}\n')
 }).listen(3314, '127.0.0.1')
 
+http.createServer(function (req, res) {
+  res.writeHead(201, { 'Content-Type': 'text/plain' })
+  res.end('OK\n')
+}).listen(3315, '127.0.0.1')
+
 config.influx = {
   dbName: 'metrics',
   host: '127.0.0.1',
@@ -148,6 +153,63 @@ describe('SPM for NodeJS tests', function () {
       done(err)
     }
   })
+  it('Influx Agent process bulk requests', function (done) {
+    let testDone = false
+    try {
+      this.timeout(60000)
+      config.collectionInterval = 1000
+      config.transmitInterval = 1000
+      config.retransmitInterval = 1000
+      // config.recoverInterval = 1000
+      config.maxDataPoints = 5
+      config.logger.console = true
+      config.logger.level = 'debug'
+      config.influx = {
+        dbName: 'metrics',
+        host: '127.0.0.1',
+        protocol: 'http',
+        port: 3315
+      }
+      const SpmAgent = require('../lib/index.js')
+      process.env.MONITORING_TAGS_FROM_ENV = 'USER,PWD,customer_id:123'
+      const client = new SpmAgent()
+      const testAgent = client.createAgent(new SpmAgent.Agent({
+        start: function (agent) {
+          this.tid = setTimeout(function () {
+            for (var i = 0; i <= 200; i++) {
+              agent.addMetrics({measurement: 'test', tags: {token: 'A'}, fields: {count: 1}})
+              agent.addMetrics({measurement: 'test', tags: {token: 'B'}, fields: {count: 1}})
+            }
+          }, 1000)
+        },
+        stop: function () { clearInterval(this.tid) }
+      }))
+      let totalSend = 0
+      client.on('stats', function (stats) {
+        if (testDone) {
+          return
+        }
+        console.log(stats)
+        if (stats.lastBulkSize) {
+          totalSend += stats.lastBulkSize
+        }
+        if (stats.send >= 1 && totalSend >= 200) {
+          testAgent.stop()
+          testDone = true
+          done()
+        }
+        if (stats.error > 1) {
+          testDone = true
+          done(new Error('sending failed'))
+        }
+      })
+    } catch (err) {
+      console.log(err.stack)
+      testDone = true
+      done(err)
+    }
+  })
+
   it('Logger should log', function (done) {
     try {
       var logger = require('../lib/util/logger.js')
