@@ -78,11 +78,10 @@ describe('SPM for NodeJS tests', function () {
           setTimeout(function () {
             var tags = {
               token: process.env.MONITORING_TOKEN || process.SPM_TOKEN,
-              PID: process.pid,
               nodeVersion: process.version
             }
             var metric = {
-              measurement: 'myapp.process.memory',
+              measurement: 'process',
               tags: tags,
               fields: { mycounter: new Date().getTime() }
             }
