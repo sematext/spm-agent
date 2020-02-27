@@ -28,55 +28,67 @@ All metric objects, must have the mandatory fields `measurement`, `tags` and `fi
 
 ```js
 
-var SpmAgent = require('spm-agent')
-var client = new SpmAgent()
-var os = require('os')
+const SpmAgent = require('spm-agent')
+const client = new SpmAgent()
+const os = require('os')
 
-// configure client, with non-defautl values
+// configure client, with non-default values
 // or use the file ./.spmagentrc in YAML format
 // the default configuration contains values for Sematext Cloud US
-client.config.tokens.spm = process.env.MONITORING_TOKEN
-client.config.influx = {
+// SpmAgent.Config.tokens.spm = process.env.MONITORING_TOKEN
+SpmAgent.Config.influx = {
   dbName: 'metrics',
   // change receiver to Sematext Cloud EU
+  // default is spm-receiver.sematext.com for US region
   host: 'spm-receiver.eu.sematext.com',
   port: 443,
   protocol: 'https'
 }
 
-var testAgent = client.createAgent(new SpmAgent.Agent ({
-  start: function (agent) {
+// a monitoring agent needs a start an stop function
+class MemoryMonitor {
+  start (agent) {
+    this.agent = agent
     // initialize your metrics collector ...
     // Typically agents collect metrics periodically, every N seconds. The time between // two collection activities is the collectionInterval, specified in milliseconds.
     this.tid = setInterval(function () {
-      // get every N seconds some metrics
-      agent.addMetrics({
+      const measurement = {
+        // measurment namespace
         measurement: 'process.memory',
-        tags: {role: 'frontend', 'os.host': os.hostname()},
-        fields: {rss: process.memoryUsage().rss}}
-       )
-      // The monitoring token can be set as 'tags.token' value
-      // Routing a metrics to a different monitoring app
-      // requires setting the `token` tag
-      agent.addMetrics({
-         measurement: 'process.memory',
-         tags: {token: 'SOME_OTHER_APP_TOKEN_HERE'},
-        fields: {rss: process.memoryUsage().rss}
-      })
-    }, client.config.collectionInterval)
-  },
-  stop: function () {
+        timestap: new Date(),
+        tags: {
+          role: 'frontend',
+          'os.host': os.hostname()
+          // The monitoring token can be set as 'tags.token' value
+          // Routing a metrics to a different monitoring app
+          // requires setting the `token` tag
+          // ,token = process.env.OTHER_APP_TOKEN
+        },
+        // metrics names and values
+        fields: {
+          rss: process.memoryUsage().rss
+        }
+      }
+      // pass metrics to sender schedule
+      agent.addMetrics(measurement)
+    }, SpmAgent.Config.collectionInterval)
+  }
+
+  stop () {
     if (this.tid) {
-       cancelInterval(this.tid)
+      clearInterval(this.tid)
     }
   }
-}))
+}
+
+client.createAgent(new SpmAgent.Agent(new MemoryMonitor()))
 
 // log collected metrics to console
-// observe all metrics
-testAgent.on('metrics', console.log)
+// observe all metrics for testing/debuggin
+client.on('metrics', console.log)
 // observe a specific metric using the measurment name
-testAgent.on('process.memory', console.log)
+client.on('process.memory', console.log)
+
 ```
 
 ## Metric Tags
