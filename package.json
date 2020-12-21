@@ -41,6 +41,7 @@
   },
   "homepage": "http://www.sematext.com",
   "dependencies": {
+    "exponential-backoff": "^3.1.0",
     "extend": "^3.0.2",
     "flat": "^2.0.1",
     "influx": "^5.5.1",
