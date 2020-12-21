@@ -46,6 +46,7 @@
     "influx": "^5.5.1",
     "ip": "^1.1.4",
     "is-docker": "^2.1.1",
+    "kubernetes-client": "^9.0.0",
     "moment": "^2.24.0",
     "nedb": "^1.8.0",
     "rc-yaml-2": "^1.0.2",
