@@ -27,6 +27,14 @@ node_modules
 # Users Environment Variables
 .lock-wscript
 
+# files created by spm during tests
 spmlogs
 spmdb
+.spmagentrc
 
+# debug
+.vscode
+
+# npm config
+.npmrc
+.npmignore
