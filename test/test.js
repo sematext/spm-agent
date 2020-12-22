@@ -8,6 +8,8 @@
  * This source code is to be used exclusively by users and customers of Sematext.
  * Please see the full license (found in LICENSE in this distribution) for details on its license and the licenses of its dependencies.
  */
+
+/* global describe, it */
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 var config = require('../lib/util/spmconfig.js')
 config.logger.console = false
@@ -52,7 +54,7 @@ describe('SPM for NodeJS tests', function () {
         },
         stop: console.log
       }))
-      // testAgent.start()
+      testAgent.start()
       client.once('metric', function (stats) {
         done()
       })
@@ -90,7 +92,7 @@ describe('SPM for NodeJS tests', function () {
         },
         stop: console.log
       }))
-      // testAgent.start()
+      testAgent.start()
       client.once('stats', function (stats) {
         if (stats && stats.send >= 1) {
           console.log('stats', stats)
@@ -136,6 +138,7 @@ describe('SPM for NodeJS tests', function () {
         },
         stop: console.log
       }))
+      testAgent.start()
       client.once('metricInSendBuffer', function (m) {
         if (m && m.tags && m.tags.token === token) {
           done()
