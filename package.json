@@ -44,6 +44,7 @@
   },
   "homepage": "http://www.sematext.com",
   "dependencies": {
+    "dockerode": "^3.2.1",
     "extend": "^3.0.2",
     "flat": "^2.0.1",
     "influx": "^5.5.1",
