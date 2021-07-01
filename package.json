@@ -44,6 +44,7 @@
   },
   "homepage": "http://www.sematext.com",
   "dependencies": {
+    "@yetzt/nedb": "^1.8.0",
     "dockerode": "^3.2.1",
     "extend": "^3.0.2",
     "flat": "^2.0.1",
@@ -52,7 +53,6 @@
     "is-docker": "^2.1.1",
     "kubernetes-client": "^9.0.0",
     "moment": "^2.24.0",
-    "nedb": "^1.8.0",
     "pidusage-tree": "^2.0.5",
     "rc-yaml-2": "^1.0.2",
     "request": "^2.88.0",
