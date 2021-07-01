@@ -1,7 +1,7 @@
 # Sematext Agent Framework for Node.js
 
-A framework for monitoring agents. 
-Ship metrics to [Sematext Cloud](https://sematext.com/cloud) or InfluxDB. 
+A framework for monitoring agents written in Node.js for sending metrics to [Sematext Cloud](https://sematext.com/cloud) or InfluxDB. The Sematext [Node.js monitoring agent](https://github.com/sematext/spm-agent-nodejs) is built on top of this framework.
+
 
 ## Functionality
 
@@ -14,7 +14,7 @@ Ship metrics to [Sematext Cloud](https://sematext.com/cloud) or InfluxDB.
 
 ## Example to Implement a Monitoring Agent
 
-Sematext Cloud supports the Influx Line Protocol for the metric ingestion. 
+Sematext Cloud supports the Influx Line Protocol for  metric ingestion. 
 
 Agent modules must provide a `start` and `stop`function.   
 
@@ -181,9 +181,6 @@ Let us know about monitoring agents you need, maybe you like to contribute with 
 
 # Related Modules
 
-- [Node.js Monitoring](http://sematext.com/spm/integrations/nodejs-monitoring.html)
-- [spm-agent-nodejs](https://github.com/sematext/spm-agent-nodejs), 
-- [spm-agent-mongodb](https://github.com/sematext/spm-agent-mongodb), 
-- [sematext-agent-nginx](https://github.com/sematext/sematext-agent-nginx), 
-- [sematext-agent-httpd](https://github.com/sematext/sematext-agent-httpd) 
-- [Sematext Cloud](https://sematext.com/cloud) - one platform for metrics and logs
+- [Node.js Monitoring](https://sematext.com/integrations/nodejs/)
+- [spm-agent-nodejs](https://github.com/sematext/spm-agent-nodejs)
+- [Sematext Cloud](https://sematext.com/) - full stack observability platform
