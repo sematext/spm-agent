@@ -51,7 +51,7 @@
     "influx": "^5.5.1",
     "ip": "^1.1.4",
     "is-docker": "^2.1.1",
-    "kubernetes-client": "^5.1.0",
+    "kubernetes-client": "^9.0.0",
     "moment": "^2.24.0",
     "pidusage-tree": "^2.0.5",
     "rc-yaml-2": "^1.0.2",
