@@ -45,7 +45,7 @@
   "homepage": "http://www.sematext.com",
   "dependencies": {
     "@yetzt/nedb": "^1.8.0",
-    "dockerode": "^3.2.1",
+    "dockerode": "^3.3.4",
     "extend": "^3.0.2",
     "flat": "^2.0.1",
     "influx": "^5.5.1",
