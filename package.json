@@ -44,25 +44,22 @@
   },
   "homepage": "http://www.sematext.com",
   "dependencies": {
+    "@kubernetes/client-node": "^0.18.1",
     "@yetzt/nedb": "^1.8.0",
-    "dockerode": "^3.3.4",
     "extend": "^3.0.2",
-    "flat": "^2.0.1",
+    "flat": "^5.0.2",
     "influx": "^5.5.1",
-    "ip": "^1.1.4",
-    "is-docker": "^2.1.1",
-    "kubernetes-client": "^9.0.0",
     "moment": "^2.24.0",
+    "node-fetch": "^2.6.9",
     "pidusage-tree": "^2.0.5",
     "rc-yaml-2": "^1.0.2",
-    "request": "^2.88.0",
     "winston": "^2.4.4"
   },
   "devDependencies": {
     "auto-changelog": "^1.16.2",
     "babel-eslint": "^10.0.3",
-    "mocha": "^10.0.0",
-    "release-it": "^15.1.1",
+    "mocha": "^10.1.0",
+    "release-it": "^15.10.1",
     "standard": "^14.3.1"
   },
   "release-it": {

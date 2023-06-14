@@ -11,14 +11,14 @@
 
 /* global describe, it */
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
-var config = require('../lib/util/spmconfig.js')
+const config = require('../lib/util/spmconfig.js')
 config.logger.console = false
 config.logger.level = 'debug'
 if (!config.tokens.spm) {
   config.tokens.spm = process.env.SPM_TOKEN || 'TEST_TEST_TEST_SPM_AGENT_TRAVIS'
 }
 global.spmSenderUrlParameters = '&countainerCount=1'
-var http = require('http')
+const http = require('http')
 http.createServer(function (req, res) {
   res.writeHead(400, { 'Content-Type': 'text/plain' })
   res.end('{"code":"400"}\n')
@@ -41,9 +41,9 @@ describe('SPM for NodeJS tests', function () {
       config.maxDataPoints = 1
       config.logger.console = true
       config.logger.level = 'debug'
-      var SpmAgent = require('../lib/index.js')
-      var client = new SpmAgent()
-      var testAgent = client.createAgent(new SpmAgent.Agent({
+      const SpmAgent = require('../lib/index.js')
+      const client = new SpmAgent()
+      const testAgent = client.createAgent(new SpmAgent.Agent({
         start: function (agent) {
           setTimeout(function () {
             agent.addMetrics({ name: 'collectd5-disk-space-used\tdf-xvda1/df_complex-used', value: 3380457472.0, sct: 'OS' })
